@@ -43,6 +43,22 @@ This project provides a hands-on exploration of:
 
 **Status:** ⚠️ **NOT PRODUCTION READY** - Requires 10x more training data and semantic embeddings (SBERT/transformers)
 
+### 📈 Comparative Analysis: Small vs Large Scale Testing
+
+The most striking discovery of this project is the **dramatic performance collapse** when scaling from a small to larger test set. This comparison reveals critical insights about ML system validation:
+
+**15 Sentences vs 100 Sentences:**
+
+The initial 15-sentence test created a **false sense of success** with 100% accuracy for manual labels and 86.67% for K-Means. However, expanding to 100 sentences exposed fundamental flaws that were hidden by the small sample size. The manual label accuracy plummeted by 51 percentage points to just 49%, while K-Means fell to 40%—barely better than random guessing (33%).
+
+**What went wrong?** The 15-sentence test set happened to contain vocabulary that aligned well with the training data, masking three critical problems: (1) the classifier's severe bias toward Category A, which only became apparent when testing more diverse sentences; (2) TF-IDF's inability to distinguish semantic meaning, as violence and hope sentences share space exploration vocabulary; and (3) insufficient training data, with only 9-11 samples per category unable to cover the vocabulary diversity needed for 100 test sentences.
+
+**The category-level breakdown is particularly revealing:** While Category A (Hope/Aspiration) maintained perfect 100% accuracy across both test sizes, Categories B (Conflict/Violence) and C (Science/Technology) experienced catastrophic failures at scale. Category B accuracy dropped from presumably high levels to just 17.5%, with 82.5% of violence sentences being misclassified as aspirational. Category C fared even worse at 10% accuracy, with 90% of technical sentences incorrectly labeled as Category A. This pattern—93% of all predictions being Category A regardless of content—indicates the classifier learned to predict the majority class rather than distinguishing semantic differences.
+
+**K-Means clustering proved fundamentally unstable.** The cluster structure completely reversed between test runs: at 15 sentences, cluster α dominated with 83% of samples, but at 100 sentences, cluster β absorbed 77%. This instability stems from vectorizing training and test data together, meaning test set size affects cluster formation—a critical flaw for any production system. The alignment accuracy remained consistently poor (43-47%) across both scales, confirming that K-Means cannot discover meaningful semantic categories in TF-IDF space.
+
+**The lesson:** Small test sets are dangerously misleading. The 15-sentence results suggested a working system ready for deployment, but 100 sentences revealed it was fundamentally broken. This demonstrates why rigorous scale testing, cross-validation, and per-category metrics are essential before deploying ML systems. Perfect accuracy on a small test set means nothing if the system collapses when faced with real-world data diversity.
+
 ### 💡 Why This Matters
 
 This project provides **critical lessons for ML practitioners**:
@@ -56,9 +72,9 @@ This project provides **critical lessons for ML practitioners**:
 
 ### 📊 Analysis Reports
 
-- **[full_analysis_100_sentences.md](full_analysis_100_sentences.md)** - Comprehensive 100-sentence deep dive with root cause analysis
-- **[docs/results_analysis.md](docs/results_analysis.md)** - Original 15-sentence analysis report
-- **[execution_log_100.txt](execution_log_100.txt)** - Full console output from 100-sentence run
+- **[docs/full_analysis_100_sentences.md](docs/full_analysis_100_sentences.md)** - Comprehensive 100-sentence deep dive with root cause analysis
+- **[docs/results_analysis.md](docs/results_analysis.md)** - Original 15-sentence analysis report (updated with comparisons)
+- **[docs/execution_log_100.txt](docs/execution_log_100.txt)** - Full console output from 100-sentence run
 
 ## Author
 KobyLev
@@ -80,22 +96,26 @@ KobyLev
 ## Project Structure
 ```
 L16/
-├── main.py              # Main pipeline orchestrator
-├── data.py              # Dataset definitions (training & test sentences)
-├── vectorization.py     # TF-IDF vectorization and normalization
-├── clustering.py        # K-Means clustering operations
-├── classification.py    # k-NN classification functions
-├── analysis.py          # Accuracy metrics and result analysis
-├── visualization.py     # Plotting and graph generation
-├── utils.py             # Configuration, token counting, utilities
-├── requirements.txt     # Python dependencies
-├── .env                 # API keys (create from .env.example)
-├── .gitignore           # Git ignore rules
-└── docs/                # Documentation folder
-    ├── results_analysis.md  # Comprehensive results report
-    ├── planning.md          # Project planning
-    ├── prd.md               # Product requirements
-    └── prompt_llm.md        # LLM interaction logs
+├── main.py                   # Main pipeline orchestrator
+├── data.py                   # Dataset definitions (training & test sentences)
+├── vectorization.py          # TF-IDF vectorization and normalization
+├── clustering.py             # K-Means clustering operations
+├── classification.py         # k-NN classification functions
+├── analysis.py               # Accuracy metrics and result analysis
+├── visualization.py          # Plotting and graph generation
+├── utils.py                  # Configuration, token counting, utilities
+├── requirements.txt          # Python dependencies
+├── .env                      # API keys (create from .env.example)
+├── .gitignore                # Git ignore rules
+└── docs/                     # Documentation & outputs folder
+    ├── full_analysis_100_sentences.md  # 📊 Comprehensive 100-sentence analysis
+    ├── results_analysis.md             # Original 15-sentence results (updated)
+    ├── execution_log_100.txt           # Console output from 100-sentence run
+    ├── planning.md                     # Project planning
+    ├── prd.md                          # Product Requirements Document v2.0
+    ├── prompt_llm.md                   # LLM interaction logs
+    ├── sentiment_analysis_results.png  # 6-panel visualization dashboard
+    └── detailed_clustering_analysis.png # 3-panel clustering deep dive
 ```
 
 ## Requirements
@@ -212,10 +232,27 @@ For comprehensive insights including:
 
 All project documentation is located in the [`docs/`](docs/) folder:
 
-- **[results_analysis.md](docs/results_analysis.md)** - Comprehensive results analysis with detailed metrics, visualizations, and conclusions
+### Analysis Reports
+- **[full_analysis_100_sentences.md](docs/full_analysis_100_sentences.md)** - 📊 **16-section comprehensive analysis** of 100-sentence test results including:
+  - Root cause analysis of catastrophic failures
+  - Category-level accuracy breakdowns (100%, 17.5%, 10%)
+  - Cluster instability investigation
+  - Statistical significance testing
+  - 12 actionable recommendations for production readiness
+  - Detailed prediction tables with error patterns
+
+- **[results_analysis.md](docs/results_analysis.md)** - Original 15-sentence analysis (updated with 100-sentence comparisons)
+
+- **[execution_log_100.txt](docs/execution_log_100.txt)** - Complete console output from 100-sentence pipeline execution
+
+### Project Documentation
 - **[planning.md](docs/planning.md)** - Project planning and implementation roadmap
-- **[prd.md](docs/prd.md)** - Product Requirements Document
+- **[prd.md](docs/prd.md)** - Product Requirements Document (v2.0 - comprehensive with all requirements and outcomes)
 - **[prompt_llm.md](docs/prompt_llm.md)** - LLM prompts and AI interaction logs
+
+### Visualizations
+- **[sentiment_analysis_results.png](docs/sentiment_analysis_results.png)** - 6-panel dashboard (clusters, distributions, accuracy, confusion matrix)
+- **[detailed_clustering_analysis.png](docs/detailed_clustering_analysis.png)** - 3-panel deep dive (PCA, imbalance, k-NN neighbors)
 
 ## License
 MIT

@@ -25,7 +25,7 @@
 - Category C: **10% accuracy** (catastrophic failure)
 - **Conclusion: System NOT production-ready**
 
-**See [full_analysis_100_sentences.md](../full_analysis_100_sentences.md) for comprehensive deep dive.**
+**See [full_analysis_100_sentences.md](full_analysis_100_sentences.md) for comprehensive deep dive.**
 
 ---
 

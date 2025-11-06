@@ -225,36 +225,70 @@ While training is relatively balanced, the **k=5 nearest neighbors algorithm** i
 
 ### Main Results Dashboard (6 panels)
 
+![Sentiment Analysis Results - 100 Sentences](sentiment_analysis_results.png)
+
 **Panel 1-2: PCA Projections**
 - Shows clear separation failure between semantic categories
 - Manual labels appear more separated than K-Means clusters
 - Significant overlap between all three categories in 2D space
+- K-Means clusters (α, β, γ) show no semantic coherence
+- Manual labels (A, B, C) show slight grouping but extensive overlap
 
 **Panel 3-4: Distribution Charts**
-- K-Means: β cluster dominates (23 samples)
-- Manual: Relatively balanced (11-10-9)
+- K-Means: β cluster dominates (23 samples) - severe imbalance
+- Manual: Relatively balanced (11-10-9) - well distributed
+- Visual evidence of cluster instability problem
 
 **Panel 5: Accuracy Comparison**
-- Manual: 49% (barely above baseline)
-- K-Means: 40% (below baseline)
+- Manual: 49% (barely above baseline) - shown as lightgreen bar
+- K-Means: 40% (below baseline) - shown as lightcoral bar
+- Both bars fall far short of acceptable 75%+ threshold
+- Stark visual representation of system failure
 
 **Panel 6: Confusion Matrix**
 - Massive diagonal failure for B and C categories
 - A category shows 100% recall but poor precision (93 predictions, 40 correct)
+- Deep blue on A-A cell (40 correct)
+- Light blue on B-A and C-A cells (33 and 18 misclassifications)
+- Nearly white on B-B and C-C cells (7 and 2 correct only)
 
 ### Detailed Clustering Analysis (3 panels)
 
-**Panel 1: Cluster Centers**
-- Shows β cluster occupying central position
-- α and γ clusters on periphery with minimal samples
+![Detailed Clustering Analysis - 100 Sentences](detailed_clustering_analysis.png)
 
-**Panel 2: Imbalance Warning**
-- 11.5:1 ratio displayed
-- β bar dominates chart
+**Panel 1: Cluster Centers (2D PCA with Centroids)**
+- Shows β cluster (blue) occupying central position with 23 samples
+- α cluster (red) on periphery with only 2 samples
+- γ cluster (green) on periphery with 5 samples
+- Black X markers show cluster centroids
+- Yellow-edged centroids clearly show imbalanced positioning
+- β centroid dominates the vector space center
 
-**Panel 3: T1 Neighbor Analysis**
+**Panel 2: Imbalance Warning (Cluster Size Distribution)**
+- 11.5:1 ratio displayed in yellow warning box
+- β bar dominates chart (height: 23)
+- α and γ bars barely visible (heights: 2 and 5)
+- Visual proof of catastrophic cluster imbalance
+- Red, blue, green color coding matches cluster assignments
+
+**Panel 3: T1 Neighbor Analysis (k-NN Visualization)**
 - T1 correctly classified with 4/5 A neighbors, 1 B neighbor
+- Black star (★) marks T1 position in PCA space
+- Orange circles highlight the 5 nearest neighbors
+- Dashed black lines connect T1 to each neighbor
+- Gold points = Category A training samples
+- Crimson points = Category B training samples
+- Steelblue points = Category C training samples
 - Demonstrates k-NN working correctly for Category A sentences
+- Green box (top-left) shows neighbor vote count: A: 4, B: 1
+- Green box (bottom-right) confirms correct prediction
+
+**Key Visual Insights:**
+1. The PCA projections reveal why the system fails - categories are not separable in TF-IDF space
+2. The cluster size chart makes imbalance immediately obvious
+3. The confusion matrix shows the catastrophic A-bias at a glance
+4. The k-NN analysis proves the algorithm works, but the features don't
+5. The visualizations make abstract metrics (49%, 40%) tangible and understandable
 
 ---
 
