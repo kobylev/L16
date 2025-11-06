@@ -22,25 +22,43 @@ This project provides a hands-on exploration of:
 ![Sentiment Analysis Results](docs/sentiment_analysis_results.png)
 
 ### 🏆 Results Summary
-After analyzing 30 training sentences and testing on up to 120 test sentences, the results clearly demonstrate:
 
-| Metric | K-Means Clustering | Manual Labels | Winner |
-|--------|-------------------|---------------|---------|
-| **Test Accuracy** | 86.67% | **100%** | ✅ Manual Labels |
-| **Cluster Balance** | Severe imbalance (12.5:1 ratio) | Well balanced | ✅ Manual Labels |
-| **Semantic Alignment** | 46.67% | 100% (by definition) | ✅ Manual Labels |
-| **Training Approach** | Unsupervised | Supervised | - |
+**⚠️ CRITICAL UPDATE:** Comprehensive testing with 100 sentences reveals **catastrophic performance degradation** at scale:
 
-**Conclusion:** While K-Means provides decent classification accuracy (86.67%), it suffers from severe cluster imbalance where one cluster captures 83% of all training data. Manual human-labeled categories consistently achieve perfect classification on test data.
+| Metric | 15 Sentences | 100 Sentences | Change |
+|--------|--------------|---------------|---------|
+| **Manual Labels Accuracy** | 100% | **49%** | **-51%** 🔴 |
+| **K-Means Accuracy** | 86.67% | **40%** | **-46.67%** 🔴 |
+| **Category A Accuracy** | - | **100%** | ✅ Perfect |
+| **Category B Accuracy** | - | **17.5%** | 🔴 Catastrophic |
+| **Category C Accuracy** | - | **10%** | 🔴 Catastrophic |
+
+**Key Finding:** The system achieves **100% accuracy for Hope/Aspiration (Category A)** but **catastrophically fails for Conflict/Violence (17.5%) and Science/Technology (10%)**. 93% of all predictions are Category A, regardless of actual content.
+
+**Conclusion:** While promising on small test sets, this approach **fails at scale** due to:
+1. **Severe Category A bias** - 93/100 predictions are A
+2. **TF-IDF semantic limitations** - Cannot distinguish hope from violence
+3. **Insufficient training data** - 9-11 samples per category too small
+4. **K-Means clustering failure** - Unstable, semantically meaningless clusters
+
+**Status:** ⚠️ **NOT PRODUCTION READY** - Requires 10x more training data and semantic embeddings (SBERT/transformers)
 
 ### 💡 Why This Matters
-This project demonstrates that:
-1. **Unsupervised learning has limitations** - K-Means struggles to find semantically meaningful boundaries in TF-IDF space
-2. **Human labeling adds significant value** - Semantic understanding beats geometric clustering for sentiment analysis
-3. **Cluster imbalance is a red flag** - When one cluster dominates (25/30 samples), classification reliability suffers
-4. **Cost-effective analysis is possible** - At ~$0.00125 per 100 sentences, this approach is extremely economical
 
-📊 **For detailed analysis, see [docs/results_analysis.md](docs/results_analysis.md)**
+This project provides **critical lessons for ML practitioners**:
+
+1. **Small test sets are misleadingly optimistic** - 100% accuracy on 15 sentences collapsed to 49% on 100 sentences
+2. **TF-IDF fails for semantic classification** - Word overlap ≠ semantic similarity (violence and hope sentences share vocabulary)
+3. **Training data quantity matters more than algorithm** - 30 samples insufficient for 3-class k-NN
+4. **Category bias detection is essential** - System predicts Category A 93% of time regardless of content
+5. **K-Means clustering unsuitable for supervised learning** - Cluster structure unstable across test sizes
+6. **Educational value in failure** - Documenting what doesn't work is as valuable as showing what does
+
+### 📊 Analysis Reports
+
+- **[full_analysis_100_sentences.md](full_analysis_100_sentences.md)** - Comprehensive 100-sentence deep dive with root cause analysis
+- **[docs/results_analysis.md](docs/results_analysis.md)** - Original 15-sentence analysis report
+- **[execution_log_100.txt](execution_log_100.txt)** - Full console output from 100-sentence run
 
 ## Author
 KobyLev

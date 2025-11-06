@@ -1,0 +1,218 @@
+================================================================================
+SENTIMENT ANALYSIS PIPELINE - K-MEANS & k-NN
+Model: claude-3-haiku-20240307
+================================================================================
+
+Configuration:
+--------------------------------------------------------------------------------
+Enter number of test sentences (press Enter for default=100): Using: 100 test sentences
+
+================================================================================
+
+[STEP 1] Loading Training and Test Datasets
+--------------------------------------------------------------------------------
+Training sentences: 30
+Test sentences: 100
+Manual label distribution: Counter({'A': 11, 'C': 10, 'B': 9})
+
+[STEP 2] Vectorization and Normalization
+--------------------------------------------------------------------------------
+Vector dimensions: 100
+Training vectors shape: (30, 100)
+Test vectors shape: (100, 100)
+Vectors normalized: L2 norm
+
+[STEP 3] K-Means Clustering (K=3)
+--------------------------------------------------------------------------------
+K-Means cluster distribution: Counter({'β': 23, 'γ': 5, 'α': 2})
+
+Alignment Analysis:
+----------------------------------------
+Cluster α: {'C': 2}
+  → Dominant manual label: C
+  → Theme: Science/Technology
+
+Cluster β: {'A': 8, 'B': 8, 'C': 7}
+  → Dominant manual label: A
+  → Theme: Hope/Aspiration
+
+Cluster γ: {'C': 1, 'A': 3, 'B': 1}
+  → Dominant manual label: A
+  → Theme: Hope/Aspiration
+
+K-Means to Manual Label Alignment Accuracy: 43.33%
+
+[STEP 4] k-NN Classification (k=5)
+--------------------------------------------------------------------------------
+Prediction 1: k-NN trained on K-Means cluster labels
+Test predictions (K-Means): ['β', 'β', 'β', 'β', 'γ', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'γ', 'β', 'β', 'β', 'β', 'β', 'β', 'γ', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'γ', 'β', 'β', 'γ', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'γ', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β', 'β']
+
+Prediction 2: k-NN trained on Manual labels
+Test predictions (Manual): [np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('B'), np.str_('A'), np.str_('A'), np.str_('B'), np.str_('A'), np.str_('A'), np.str_('B'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('B'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('B'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('B'), np.str_('A'), np.str_('A'), np.str_('B'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('C'), np.str_('C'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A')]
+
+[STEP 5] Results Summary
+================================================================================
+
+Test Set Predictions Comparison:
+--------------------------------------------------------------------------------
+ID    Sentence                                           Expected   K-Means    Manual    
+--------------------------------------------------------------------------------
+T1    The mission promised unprecedented scientific d... A          β          A         
+T2    He vowed to find meaning in the cosmic journey.    A          β          A         
+T3    The crew celebrated receiving signals from Rakhat. A          β          A         
+T4    She hoped to establish peaceful interspecies co... A          β          A         
+T5    They dreamed of understanding alien musical tra... A          γ          A         
+T6    The scientists anticipated revolutionary lingui... A          β          A         
+T7    Emilio aspired to serve God among the stars.       A          β          A         
+T8    The expedition team looked forward to landfall.    A          β          A         
+T9    Anne wished for her research to bridge two worlds. A          β          A         
+T10   Father Sandoz envisioned a new era of faith.       A          β          A         
+T11   The Jesuits hoped their mission would succeed.     A          β          A         
+T12   Sofia planned to document the first contact.       A          β          A         
+T13   The priest sought redemption through continued ... A          β          A         
+T14   The musicians dreamed of sharing beauty across ... A          β          A         
+T15   Jimmy longed to see alien civilization firsthand.  A          γ          A         
+T16   The crew prayed for safe passage through space.    A          β          A         
+T17   She aspired to decode the alien language comple... A          β          A         
+T18   The linguists yearned to master xenocommunication. A          β          A         
+T19   They hoped the aliens would welcome their arrival. A          β          A         
+T20   The Father wished for divine guidance on Rakhat.   A          β          A         
+T21   Emilio dreamed of finding God's purpose revealed.  A          β          A         
+T22   The team anticipated mutual understanding and p... A          γ          A         
+T23   Anne vowed to protect indigenous culture from h... A          β          A         
+T24   The missionaries prayed for wisdom and compassion. A          β          A         
+T25   Sandoz hoped to unite humanity with alien faith.   A          β          A         
+T26   They longed for meaningful contact with the Jan... A          β          A         
+T27   The young priest dreamed of spiritual enlighten... A          β          A         
+T28   Sofia planned to establish cultural exchange pr... A          β          A         
+T29   The crew hoped to return home with knowledge.      A          β          A         
+T30   She wished for humanity to learn from aliens.      A          β          A         
+T31   The astronomers looked forward to observing new... A          β          A         
+T32   Jimmy aspired to compose music with alien harmo... A          β          A         
+T33   The expedition hoped for breakthrough discoveri... A          β          A         
+T34   Father Emilio envisioned a thriving interstella... A          β          A         
+T35   They dreamed of escaping Earth's limitations fo... A          β          A         
+T36   The researchers hoped their work would endure.     A          β          A         
+T37   Anne planned a comprehensive xenoanthropologica... A          β          A         
+T38   The crew wished for abundant resources on Rakhat.  A          β          A         
+T39   The Jesuit hoped to prove faith transcends worlds. A          β          A         
+T40   They aspired to build lasting bonds between spe... A          β          A         
+T41   The brutal interrogation left Emilio physically... B          β          B         
+T42   Blood marked the ground where the massacre occu... B          β          A         
+T43   The Jana'ata warriors attacked with overwhelmin... B          β          A         
+T44   Alien soldiers captured the defenseless expedit... B          β          B         
+T45   Weapons clashed as territorial disputes explode... B          β          A         
+T46   The ambush came without warning in darkness.       B          β          A         
+T47   Flames consumed the settlement as refugees fled... B          β          B         
+T48   The executioner prepared the captive for punish... B          β          A         
+T49   Raiders destroyed the camp and killed the crew.    B          β          A         
+T50   The torture chamber echoed with Sandoz's screams.  B          β          A         
+T51   Projectiles rained down upon the fleeing humans.   B          β          A         
+T52   The alien forces slaughtered everyone in their ... B          γ          A         
+T53   War destroyed everything the mission accomplished. B          β          A         
+T54   The assassin struck Askama swiftly at night.       B          β          A         
+T55   Blood soaked the alien soil after battle.          B          γ          A         
+T56   Enemies burned supplies to starve the survivors.   B          β          A         
+T57   The mob attacked with primitive brutal weapons.    B          β          A         
+T58   Soldiers dragged prisoners to holding cells.       B          β          A         
+T59   The rebellion was crushed with savage efficiency.  B          β          A         
+T60   Rioters destroyed scientific equipment and reso... B          β          A         
+T61   The guards prepared captives for execution ritu... B          β          A         
+T62   Mercenaries killed without hesitation or consci... B          β          A         
+T63   The siege left the expedition decimated and hel... B          β          B         
+T64   Warriors charged with deadly intent and rage.      B          β          A         
+T65   The compound fell after a devastating assault.     B          β          A         
+T66   Betrayal led to murder and violent retribution.    B          β          A         
+T67   The confrontation ended with fatal injuries inf... B          β          A         
+T68   Bandits ambushed the supply expedition merciles... B          β          A         
+T69   The raid left nothing but ruins and bodies.        B          β          B         
+T70   Combatants fought savagely with alien weaponry.    B          γ          A         
+T71   The invasion brought death and total destruction.  B          β          A         
+T72   Assassins poisoned food supplies systematically.   B          β          A         
+T73   The battle raged for days with horrific casualt... B          β          A         
+T74   Soldiers burned shelters with people trapped in... B          β          A         
+T75   The massacre spared no one from violence.          B          β          B         
+T76   Warriors trampled victims beneath armored feet.    B          β          A         
+T77   The conflict escalated into genocidal warfare.     B          β          A         
+T78   Rebels attacked the settlement under cover of d... B          β          B         
+T79   The conquerors showed no mercy to survivors.       B          β          A         
+T80   Violence erupted suddenly in the crowded alien ... B          β          A         
+T81   The mission was dedicated to advancing scientif... C          β          A         
+T82   They carefully installed the complex sensor arr... C          β          A         
+T83   The engineers measured every trajectory precisely. C          β          A         
+T84   The chief technician inspected each system care... C          β          A         
+T85   Antenna arrays rose majestically toward the stars. C          β          A         
+T86   The spacecraft's foundation was engineered deep... C          β          A         
+T87   Technicians programmed intricate navigation pat... C          β          C         
+T88   The support struts reinforced the ship's hull.     C          β          C         
+T89   Workers assembled modular habitat components sy... C          β          A         
+T90   The vessel's main corridor stretched impressive... C          β          A         
+T91   Engineers calibrated instruments for atmospheri... C          β          A         
+T92   The docking bay intersected the corridor at rig... C          β          A         
+T93   Equipment racks climbed to maximize storage space. C          β          A         
+T94   The observatory curved gracefully behind the co... C          β          A         
+T95   Fuel was mixed with precise chemical proportions.  C          β          A         
+T96   The storage bay was constructed beneath the mai... C          β          A         
+T97   Solar panels were deployed in overlapping confi... C          β          A         
+T98   The communication tower transmitted farther tha... C          β          A         
+T99   Structural beams distributed stress efficiently... C          β          A         
+T100  Viewports were positioned to maximize stellar o... C          β          A         
+--------------------------------------------------------------------------------
+
+Accuracy Comparison:
+----------------------------------------
+k-NN with K-Means labels: 40.00%
+k-NN with Manual labels:  49.00%
+
+[STEP 6] Final Analysis and Conclusion
+================================================================================
+✓ The Manual labels resulted in BETTER classification performance.
+  Accuracy difference: +9.00%
+
+Analysis:
+  - Manual labels provide supervised categorization based on semantic
+    understanding of Hope/Aspiration, Conflict/Violence, and Science/Technology.
+  - K-Means clustering found patterns but may not perfectly align with
+    human-defined semantic categories.
+
+Recommended approach: Manual labels (A, B, C)
+
+[STEP 7] Token Usage Report (claude-3-haiku-20240307)
+================================================================================
+Total tokens processed: 1,202
+Average tokens per sentence: 9.25
+Training set tokens: ~283
+Test set tokens: ~919
+
+Model: claude-3-haiku-20240307
+Note: Token count uses cl100k_base encoding as an approximation.
+      Actual Claude API usage may vary slightly.
+
+Estimated cost (input tokens only): $0.000300
+(Based on Claude Haiku pricing: $0.25/million input tokens)
+
+[STEP 8] Generating Visualization Graphs
+================================================================================
+✓ Visualization saved as 'docs/sentiment_analysis_results.png'
+
+[STEP 9] Generating Detailed Clustering Analysis
+================================================================================
+✓ Detailed analysis saved as 'docs/detailed_clustering_analysis.png'
+
+Clustering Analysis Summary:
+--------------------------------------------------------------------------------
+1. K-Means Imbalance: Cluster α dominates with 2 samples
+   while clusters β and γ have only 23 and 5 samples.
+
+2. Imbalance Ratio: 11.5:1 (largest to smallest cluster)
+
+3. T1 Classification Analysis:
+   - Expected Label: A
+   - Predicted Label: A
+   - T1's 5 Nearest Neighbors: ['A', 'B', 'A', 'A', 'A']
+   - Neighbor Vote Count: {'A': 4, 'B': 1, 'C': 0}
+   - Correctly classified by majority vote
+
+================================================================================
+PIPELINE COMPLETE
+================================================================================
