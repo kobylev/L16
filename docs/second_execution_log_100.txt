@@ -1,0 +1,189 @@
+================================================================================
+SENTIMENT ANALYSIS PIPELINE - K-MEANS & k-NN
+Dataset: War and Peace by Leo Tolstoy
+Model: claude-3-haiku-20240307
+================================================================================
+
+[STEP 1] Loading Training and Test Datasets
+--------------------------------------------------------------------------------
+Training sentences: 30
+Test sentences: 100
+Manual label distribution: Counter({'A': 10, 'B': 10, 'C': 10})
+
+[STEP 2] Vectorization and Normalization
+--------------------------------------------------------------------------------
+Vector dimensions: 100
+Training vectors shape: (30, 100)
+Test vectors shape: (100, 100)
+Vectors normalized: L2 norm
+
+[STEP 3] K-Means Clustering (K=3)
+--------------------------------------------------------------------------------
+K-Means cluster distribution: Counter({'α': 25, 'β': 3, 'γ': 2})
+
+Alignment Analysis:
+----------------------------------------
+Cluster α: {'A': 6, 'B': 10, 'C': 9}
+  → Dominant manual label: B
+  → Theme: Conflict/Violence
+
+Cluster β: {'C': 1, 'A': 2}
+  → Dominant manual label: A
+  → Theme: Hope/Aspiration
+
+Cluster γ: {'A': 2}
+  → Dominant manual label: A
+  → Theme: Hope/Aspiration
+
+K-Means to Manual Label Alignment Accuracy: 46.67%
+
+[STEP 4] k-NN Classification (k=5)
+--------------------------------------------------------------------------------
+Prediction 1: k-NN trained on K-Means cluster labels
+Test predictions (K-Means): ['α', 'α', 'β', 'α', 'α', 'α', 'α', 'α', 'α', 'β', 'α', 'α', 'α', 'α', 'α', 'β', 'α', 'α', 'α', 'α', 'α', 'β', 'α', 'α', 'α', 'α', 'β', 'α', 'α', 'α', 'α', 'α', 'β', 'α', 'α', 'α', 'α', 'α', 'β', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α']
+
+Prediction 2: k-NN trained on Manual labels
+Test predictions (Manual): [np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('B'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('B'), np.str_('B'), np.str_('B'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('B'), np.str_('A'), np.str_('B'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('B'), np.str_('B'), np.str_('B'), np.str_('B'), np.str_('B'), np.str_('B'), np.str_('A'), np.str_('B'), np.str_('B'), np.str_('A'), np.str_('B'), np.str_('B'), np.str_('A'), np.str_('B'), np.str_('C'), np.str_('B'), np.str_('A'), np.str_('B'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('B'), np.str_('A'), np.str_('B'), np.str_('B'), np.str_('B'), np.str_('B'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('B'), np.str_('A'), np.str_('B'), np.str_('A'), np.str_('B'), np.str_('B'), np.str_('C'), np.str_('B'), np.str_('C'), np.str_('A'), np.str_('A'), np.str_('C'), np.str_('A'), np.str_('B'), np.str_('B'), np.str_('B'), np.str_('A'), np.str_('C'), np.str_('C'), np.str_('A'), np.str_('B'), np.str_('C'), np.str_('A'), np.str_('B'), np.str_('A'), np.str_('A'), np.str_('C'), np.str_('B')]
+
+[STEP 5] Results Summary
+================================================================================
+
+Test Set Predictions Comparison:
+--------------------------------------------------------------------------------
+ID    Sentence                                           Expected   K-Means    Manual    
+--------------------------------------------------------------------------------
+T1    Pierre hoped to find spiritual enlightenment th... A          α          A         
+T2    Natasha dreamed of attending her first grand ball. A          α          A         
+T3    Prince Andrei wished to prove himself in battle.   A          β          A         
+T4    Princess Marya prayed for peace and understanding. A          α          A         
+T5    The young officer aspired to military distinction. A          α          A         
+T6    Sonya longed for Nicholas to return her affection. A          α          A         
+T7    Count Bezukhov sought meaning in philosophical ... A          α          A         
+T8    Natasha anticipated her debut in high society.     A          α          A         
+T9    Pierre vowed to become a better person.            A          α          A         
+T10   Andrei hoped to find purpose beyond vanity.        A          β          A         
+T11   The countess wished for her children's happiness.  A          α          A         
+T12   Nicholas dreamed of restoring family fortune.      A          α          A         
+T13   Marya aspired to spiritual purity and devotion.    A          α          A         
+T14   Pierre planned to reform his estates and serfs.    A          α          B         
+T15   Natasha yearned for passionate romantic love.      A          α          A         
+T16   Andrei envisioned a glorious military career.      A          β          A         
+T17   Sonya hoped to be accepted by the family.          A          α          A         
+T18   The young count wished for adventure and honor.    A          α          B         
+T19   Pierre sought answers in esoteric teachings.       A          α          B         
+T20   Marya prayed for her father's redemption.          A          α          B         
+T21   Natasha looked forward to the opera season.        A          α          A         
+T22   Andrei longed to escape domestic tedium.           A          β          A         
+T23   Nicholas vowed to win glory in cavalry service.    A          α          A         
+T24   Pierre hoped freemasonry would transform him.      A          α          A         
+T25   The princess wished for a worthy suitor.           A          α          A         
+T26   Natasha dreamed of a beautiful wedding.            A          α          A         
+T27   Andrei aspired to serve Russia with distinction.   A          β          A         
+T28   Sonya prayed for Nicholas's safe return.           A          α          A         
+T29   Pierre planned to implement enlightened reforms.   A          α          B         
+T30   Marya hoped to overcome her plainness through v... A          α          A         
+T31   The young man wished to prove his courage.         A          α          B         
+T32   Natasha anticipated balls and social triumphs.     A          α          A         
+T33   Andrei longed for recognition from the Tsar.       A          β          A         
+T34   Pierre sought spiritual rebirth and renewal.       A          α          A         
+T35   The countess hoped her daughters would marry well. A          α          A         
+T36   Nicholas dreamed of heroic cavalry charges.        A          α          A         
+T37   Marya prayed for humility and grace.               A          α          A         
+T38   Natasha yearned for life to begin at last.         A          α          A         
+T39   Andrei wished to leave a mark on history.          A          β          A         
+T40   Pierre hoped to find truth in philosophy.          A          α          A         
+T41   French soldiers pillaged the abandoned Russian ... B          α          B         
+T42   Artillery fire shattered the infantry square br... B          α          B         
+T43   Cossacks hunted down stragglers without mercy.     B          α          B         
+T44   The bayonet charge left bodies strewn across th... B          α          B         
+T45   Grapeshot tore through cavalry ranks with devas... B          α          B         
+T46   Russian troops burned bridges to slow the advance. B          α          B         
+T47   Hand-to-hand combat raged through burning streets. B          α          A         
+T48   Cannon balls crushed soldiers beneath rubble.      B          α          B         
+T49   The rearguard action became a desperate slaughter. B          α          B         
+T50   Musket volleys cut down attacking columns.         B          α          A         
+T51   French cavalry trampled fleeing peasants underf... B          α          B         
+T52   The siege guns bombarded Moscow relentlessly.      B          α          B         
+T53   Partisans ambushed supply convoys in the forest.   B          α          A         
+T54   Sabers clashed as cavalry squadrons collided.      B          α          B         
+T55   The assault wave was decimated by defensive fire.  B          α          C         
+T56   Wounded soldiers were abandoned in the snow.       B          α          B         
+T57   Russian batteries fired at point-blank range.      B          α          A         
+T58   The retreat became a massacre in frozen mud.       B          α          B         
+T59   Guerrillas attacked French patrols at night.       B          α          A         
+T60   Artillery duels destroyed entire villages.         B          α          A         
+T61   The charge was broken by concentrated musketry.    B          α          A         
+T62   Prisoners were executed to save supplies.          B          α          A         
+T63   Howitzers pounded the fortress walls to rubble.    B          α          A         
+T64   Cavalry sabers cut down infantry formations.       B          α          B         
+T65   The battle descended into savage close combat.     B          α          A         
+T66   Grapeshot massacred the attacking columns.         B          α          B         
+T67   Russian forces burned crops to deny the enemy.     B          α          B         
+T68   The bombardment lasted three days without pause.   B          α          B         
+T69   Soldiers froze to death during the retreat.        B          α          B         
+T70   French troops looted and burned estate houses.     B          α          A         
+T71   The counterattack was crushed with heavy losses.   B          α          A         
+T72   Cossack lances skewered retreating infantrymen.    B          α          A         
+T73   Artillery crews were overrun and slaughtered.      B          α          B         
+T74   The fortress fell after a brutal assault.          B          α          A         
+T75   Musket fire raked the advancing lines.             B          α          B         
+T76   The pursuit became a running massacre.             B          α          A         
+T77   Cavalry charges were repulsed with grapeshot.      B          α          B         
+T78   The city was sacked by occupying forces.           B          α          B         
+T79   Russian troops ambushed the baggage train.         B          α          C         
+T80   The final assault left thousands dead.             B          α          B         
+T81   Military engineers surveyed positions for artil... C          α          C         
+T82   The army organized supply depots along the route.  C          α          A         
+T83   Topographical maps were drawn with precise meas... C          α          A         
+T84   Field hospitals were established behind the lines. C          α          C         
+T85   Artillery pieces were positioned on elevated gr... C          α          A         
+T86   The general staff analyzed intelligence reports... C          α          B         
+T87   Pontoon bridges were constructed across major r... C          α          B         
+T88   Signal fires communicated orders across distances. C          α          B         
+T89   Wagons transported ammunition to forward positi... C          α          A         
+T90   Engineers fortified defensive positions with ea... C          α          C         
+T91   The quartermaster calculated supply requirement... C          α          C         
+T92   Artillery batteries were arranged in checkerboa... C          α          A         
+T93   Reconnaissance units mapped enemy positions daily. C          α          B         
+T94   Field kitchens prepared rations for thousands.     C          α          C         
+T95   Engineers measured trajectory angles for mortars.  C          α          A         
+T96   The ordnance department inspected weapon quality.  C          α          B         
+T97   Supply columns were organized in military order.   C          α          A         
+T98   Fortifications were designed with overlapping f... C          α          A         
+T99   Military surgeons operated with available instr... C          α          C         
+T100  Artillery officers calculated range and elevation. C          α          B         
+--------------------------------------------------------------------------------
+
+Accuracy Comparison:
+----------------------------------------
+k-NN with K-Means labels: 47.00%
+k-NN with Manual labels:  63.00%
+
+[STEP 6] Final Analysis and Conclusion
+================================================================================
+✓ The Manual labels resulted in BETTER classification performance.
+  Accuracy difference: +16.00%
+
+Analysis:
+  - Manual labels provide supervised categorization based on semantic
+    understanding of Hope/Aspiration, Conflict/Violence, and Science/Technology.
+  - K-Means clustering found patterns but may not perfectly align with
+    human-defined semantic categories.
+
+Recommended approach: Manual labels (A, B, C)
+
+[STEP 7] Token Usage Report (claude-3-haiku-20240307)
+================================================================================
+Total tokens processed: 1,238
+Average tokens per sentence: 9.52
+
+Model: claude-3-haiku-20240307
+Estimated cost (input tokens only): $0.000309
+
+[STEP 8] Generating Visualization Graphs
+================================================================================
+✓ Visualization saved as 'docs/second_sentiment_analysis_results_100.png'
+
+================================================================================
+PIPELINE COMPLETE
+================================================================================

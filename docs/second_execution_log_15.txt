@@ -1,0 +1,104 @@
+================================================================================
+SENTIMENT ANALYSIS PIPELINE - K-MEANS & k-NN
+Dataset: War and Peace by Leo Tolstoy
+Model: claude-3-haiku-20240307
+================================================================================
+
+[STEP 1] Loading Training and Test Datasets
+--------------------------------------------------------------------------------
+Training sentences: 30
+Test sentences: 15
+Manual label distribution: Counter({'A': 10, 'B': 10, 'C': 10})
+
+[STEP 2] Vectorization and Normalization
+--------------------------------------------------------------------------------
+Vector dimensions: 100
+Training vectors shape: (30, 100)
+Test vectors shape: (15, 100)
+Vectors normalized: L2 norm
+
+[STEP 3] K-Means Clustering (K=3)
+--------------------------------------------------------------------------------
+K-Means cluster distribution: Counter({'α': 25, 'β': 3, 'γ': 2})
+
+Alignment Analysis:
+----------------------------------------
+Cluster α: {'A': 9, 'C': 9, 'B': 7}
+  → Dominant manual label: A
+  → Theme: Hope/Aspiration
+
+Cluster β: {'B': 2, 'C': 1}
+  → Dominant manual label: B
+  → Theme: Conflict/Violence
+
+Cluster γ: {'B': 1, 'A': 1}
+  → Dominant manual label: B
+  → Theme: Conflict/Violence
+
+K-Means to Manual Label Alignment Accuracy: 40.00%
+
+[STEP 4] k-NN Classification (k=5)
+--------------------------------------------------------------------------------
+Prediction 1: k-NN trained on K-Means cluster labels
+Test predictions (K-Means): ['α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α', 'α']
+
+Prediction 2: k-NN trained on Manual labels
+Test predictions (Manual): [np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A'), np.str_('A')]
+
+[STEP 5] Results Summary
+================================================================================
+
+Test Set Predictions Comparison:
+--------------------------------------------------------------------------------
+ID    Sentence                                           Expected   K-Means    Manual    
+--------------------------------------------------------------------------------
+T1    Pierre hoped to find spiritual enlightenment th... A          α          A         
+T2    Natasha dreamed of attending her first grand ball. A          α          A         
+T3    Prince Andrei wished to prove himself in battle.   A          α          A         
+T4    Princess Marya prayed for peace and understanding. A          α          A         
+T5    The young officer aspired to military distinction. A          α          A         
+T6    Sonya longed for Nicholas to return her affection. A          α          A         
+T7    Count Bezukhov sought meaning in philosophical ... A          α          A         
+T8    Natasha anticipated her debut in high society.     A          α          A         
+T9    Pierre vowed to become a better person.            A          α          A         
+T10   Andrei hoped to find purpose beyond vanity.        A          α          A         
+T11   The countess wished for her children's happiness.  A          α          A         
+T12   Nicholas dreamed of restoring family fortune.      A          α          A         
+T13   Marya aspired to spiritual purity and devotion.    A          α          A         
+T14   Pierre planned to reform his estates and serfs.    A          α          A         
+T15   Natasha yearned for passionate romantic love.      A          α          A         
+--------------------------------------------------------------------------------
+
+Accuracy Comparison:
+----------------------------------------
+k-NN with K-Means labels: 100.00%
+k-NN with Manual labels:  100.00%
+
+[STEP 6] Final Analysis and Conclusion
+================================================================================
+✓ Both approaches achieved EQUAL classification performance.
+  Accuracy: 100.00%
+
+Analysis:
+  - Both supervised (manual) and unsupervised (K-Means) approaches
+    yielded identical results on the test set.
+  - The K-Means clusters aligned well with the manual categorization,
+    suggesting coherent semantic groupings in the data.
+
+Recommended approach: Both approaches (tied)
+
+[STEP 7] Token Usage Report (claude-3-haiku-20240307)
+================================================================================
+Total tokens processed: 459
+Average tokens per sentence: 10.20
+
+Model: claude-3-haiku-20240307
+Estimated cost (input tokens only): $0.000115
+
+[STEP 8] Generating Visualization Graphs
+================================================================================
+✓ Visualization saved as 'docs/second_sentiment_analysis_results_15.png'
+
+================================================================================
+PIPELINE COMPLETE
+================================================================================

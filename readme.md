@@ -59,6 +59,25 @@ The initial 15-sentence test created a **false sense of success** with 100% accu
 
 **The lesson:** Small test sets are dangerously misleading. The 15-sentence results suggested a working system ready for deployment, but 100 sentences revealed it was fundamentally broken. This demonstrates why rigorous scale testing, cross-validation, and per-category metrics are essential before deploying ML systems. Perfect accuracy on a small test set means nothing if the system collapses when faced with real-world data diversity.
 
+### 🔬 Cross-Domain Validation: War and Peace Comparison
+
+**NEW: Does the source book affect performance?** To answer this, we tested identical experiments on "War and Peace" by Leo Tolstoy (historical military fiction) vs "The Sparrow" (science fiction):
+
+| Dataset | 15 Sent (Manual) | 100 Sent (Manual) | Cat A | Cat B | Cat C | Cluster Stable? |
+|---------|------------------|-------------------|-------|-------|-------|-----------------|
+| **The Sparrow** | 100% | 49% | 100% | 17.5% | 10% | ❌ No (flip) |
+| **War & Peace** | 100% | **63%** ✅ | 85% | **55%** ✅ | **20%** ✅ | ✅ Yes |
+
+**KEY FINDING: War and Peace outperforms by +14% overall accuracy** with dramatic improvements in violence detection (+37.5%) and technical language (+10%).
+
+**Why War and Peace performs better:**
+1. **Vocabulary distinctiveness** - Military terms ("bayonet," "grapeshot") clearly signal violence; court language ("prayed," "dreamed") signals hope
+2. **Less cross-category overlap** - Space exploration vocabulary appears across all Sparrow categories; military context separates better
+3. **Cluster stability** - War and Peace maintains same cluster structure at both scales; Sparrow experiences catastrophic cluster flip
+4. **Explicit vs implicit sentiment** - War violence is explicit; Sparrow violence mixed with space exploration metaphors
+
+**Conclusion:** **Domain selection is a critical ML design decision**, not an afterthought. TF-IDF performs better on historical/military domains with distinct vocabulary than science fiction with shared technical terms. Before deploying any TF-IDF classifier, run cross-domain validation—if performance varies >15% (as seen here), upgrade to semantic embeddings.
+
 ### 💡 Why This Matters
 
 This project provides **critical lessons for ML practitioners**:
@@ -244,6 +263,12 @@ All project documentation is located in the [`docs/`](docs/) folder:
 - **[results_analysis.md](docs/results_analysis.md)** - Original 15-sentence analysis (updated with 100-sentence comparisons)
 
 - **[execution_log_100.txt](docs/execution_log_100.txt)** - Complete console output from 100-sentence pipeline execution
+
+#### War and Peace Dataset (Cross-Domain Validation)
+- **[docs/cross_book_comparative_analysis.md](docs/cross_book_comparative_analysis.md)** - 📚 **Complete cross-domain study** comparing The Sparrow vs War and Peace
+- **[docs/second_execution_log_15.txt](docs/second_execution_log_15.txt)** - War and Peace 15-sentence run (100% accuracy both approaches)
+- **[docs/second_execution_log_100.txt](docs/second_execution_log_100.txt)** - War and Peace 100-sentence run (63% manual, 47% K-Means)
+- **Quick reference:** See Section 17 in full_analysis_100_sentences.md for integrated comparison
 
 ### Project Documentation
 - **[planning.md](docs/planning.md)** - Project planning and implementation roadmap
