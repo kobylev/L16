@@ -1,0 +1,203 @@
+# Sentiment Analysis Pipeline - K-Means & k-NN
+
+## Overview
+This project implements a comprehensive sentiment analysis pipeline to answer a fundamental machine learning question: **Can unsupervised clustering match the performance of supervised learning for text classification?**
+
+By combining K-Means clustering (unsupervised) and k-NN classification (supervised), this pipeline compares two distinct approaches to categorizing text into three semantic groups. The dataset consists of sentences inspired by themes from Mary Doria Russell's science fiction novel "The Sparrow", classified into:
+- **Hope/Aspiration** - Spiritual journeys, dreams, and discoveries
+- **Conflict/Violence** - Battles, suffering, and warfare
+- **Science/Technology** - Engineering, spacecraft systems, and technical details
+
+### The Research Question
+**Does K-Means clustering discover meaningful semantic patterns that rival human-labeled categories for k-NN classification?**
+
+This project provides a hands-on exploration of:
+- The trade-off between unsupervised pattern discovery vs supervised learning
+- The limitations of TF-IDF vectorization for semantic understanding
+- The impact of cluster imbalance on classification performance
+- Cost-effective text analysis using approximated token counting
+
+## Key Findings
+
+![Sentiment Analysis Results](docs/sentiment_analysis_results.png)
+
+### 🏆 Results Summary
+After analyzing 30 training sentences and testing on up to 120 test sentences, the results clearly demonstrate:
+
+| Metric | K-Means Clustering | Manual Labels | Winner |
+|--------|-------------------|---------------|---------|
+| **Test Accuracy** | 86.67% | **100%** | ✅ Manual Labels |
+| **Cluster Balance** | Severe imbalance (12.5:1 ratio) | Well balanced | ✅ Manual Labels |
+| **Semantic Alignment** | 46.67% | 100% (by definition) | ✅ Manual Labels |
+| **Training Approach** | Unsupervised | Supervised | - |
+
+**Conclusion:** While K-Means provides decent classification accuracy (86.67%), it suffers from severe cluster imbalance where one cluster captures 83% of all training data. Manual human-labeled categories consistently achieve perfect classification on test data.
+
+### 💡 Why This Matters
+This project demonstrates that:
+1. **Unsupervised learning has limitations** - K-Means struggles to find semantically meaningful boundaries in TF-IDF space
+2. **Human labeling adds significant value** - Semantic understanding beats geometric clustering for sentiment analysis
+3. **Cluster imbalance is a red flag** - When one cluster dominates (25/30 samples), classification reliability suffers
+4. **Cost-effective analysis is possible** - At ~$0.00125 per 100 sentences, this approach is extremely economical
+
+📊 **For detailed analysis, see [docs/results_analysis.md](docs/results_analysis.md)**
+
+## Author
+KobyLev
+
+## Features
+- **Modular Architecture**: Clean separation of concerns across 8 specialized modules
+- **TF-IDF Vectorization**: Efficient text feature extraction with L2 normalization
+- **K-Means Clustering**: Unsupervised pattern discovery with 3 clusters (α, β, γ)
+- **k-NN Classification**: Supervised learning with configurable k-value (default: k=5)
+- **Comparative Analysis**: Side-by-side evaluation of unsupervised vs supervised approaches
+- **Rich Visualizations**:
+  - 2D PCA projections of clusters and manual labels
+  - Cluster distribution and imbalance analysis
+  - Confusion matrices for prediction evaluation
+  - Detailed k-NN neighbor analysis
+- **Token Counting**: Approximate Claude API usage and cost estimation
+- **Comprehensive Reporting**: Detailed accuracy metrics, alignment analysis, and conclusions
+
+## Project Structure
+```
+L16/
+├── main.py              # Main pipeline orchestrator
+├── data.py              # Dataset definitions (training & test sentences)
+├── vectorization.py     # TF-IDF vectorization and normalization
+├── clustering.py        # K-Means clustering operations
+├── classification.py    # k-NN classification functions
+├── analysis.py          # Accuracy metrics and result analysis
+├── visualization.py     # Plotting and graph generation
+├── utils.py             # Configuration, token counting, utilities
+├── requirements.txt     # Python dependencies
+├── .env                 # API keys (create from .env.example)
+├── .gitignore           # Git ignore rules
+└── docs/                # Documentation folder
+    ├── results_analysis.md  # Comprehensive results report
+    ├── planning.md          # Project planning
+    ├── prd.md               # Product requirements
+    └── prompt_llm.md        # LLM interaction logs
+```
+
+## Requirements
+- Python 3.8+
+- See `requirements.txt` for all dependencies:
+  - scikit-learn >= 1.3.0
+  - numpy >= 1.24.0
+  - matplotlib >= 3.7.0
+  - tiktoken >= 0.5.0
+  - python-dotenv >= 1.0.0
+
+## Installation
+
+1. Clone or download this repository
+
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+3. (Optional) Create a `.env` file for API configuration:
+```bash
+ANTHROPIC_API_KEY=your_api_key_here
+```
+
+## Usage
+
+### Running the Pipeline
+Execute the main script to run the complete analysis:
+```bash
+python main.py
+```
+
+When prompted, enter the number of test sentences to use (default: 100, max: 120).
+
+### Pipeline Steps
+The pipeline executes 9 steps automatically:
+
+1. **Data Setup** - Load training (30 sentences) and test datasets
+2. **Vectorization** - Convert text to TF-IDF vectors with L2 normalization
+3. **K-Means Clustering** - Perform unsupervised clustering (K=3)
+4. **k-NN Classification** - Train classifiers on both cluster and manual labels
+5. **Results Summary** - Display predictions and comparison tables
+6. **Final Analysis** - Evaluate which approach performs better
+7. **Token Usage Report** - Display token counts and estimated API costs
+8. **Visualization** - Generate main analysis graphs
+9. **Detailed Analysis** - Generate clustering deep-dive visualizations
+
+### Output Files
+The pipeline generates two visualization files:
+- `sentiment_analysis_results.png` - 6-panel overview with clusters, distributions, and accuracy
+- `detailed_clustering_analysis.png` - 3-panel deep-dive into K-Means performance
+
+## Dataset
+**Training Set**: 30 manually labeled sentences across three categories:
+- **Category A**: Hope/Aspiration (spiritual journey, discovery, dreams)
+- **Category B**: Conflict/Violence (attacks, battles, suffering)
+- **Category C**: Science/Technology (engineering, systems, technical details)
+
+**Test Set**: 120 sentences (40 per category) available for evaluation
+
+All sentences are inspired by themes from Mary Doria Russell's science fiction novel "The Sparrow".
+
+## Methodology
+
+### Vectorization
+- TF-IDF (Term Frequency-Inverse Document Frequency) with 100 features
+- English stop words removed
+- L2 normalization for consistent scaling
+
+### K-Means Clustering
+- 3 clusters (matching the 3 manual categories)
+- Random state = 42 for reproducibility
+- Cluster-to-category alignment analysis
+
+### k-NN Classification
+- k=5 neighbors (majority voting)
+- Two approaches compared:
+  1. Trained on K-Means cluster labels (unsupervised)
+  2. Trained on manual category labels (supervised)
+
+## Results Interpretation
+
+### What the Visualizations Show
+
+**Main Results Dashboard** (`sentiment_analysis_results.png`):
+- **Top Row**: Side-by-side comparison of K-Means clusters vs manual labels in 2D PCA space
+- **Middle Row**: Distribution charts revealing cluster imbalance
+- **Bottom Row**: Accuracy comparison and confusion matrix
+
+**Detailed Clustering Analysis** (`detailed_clustering_analysis.png`):
+- **Left Panel**: K-Means cluster centers and sample distribution showing 83% concentration in one cluster
+- **Middle Panel**: Imbalance ratio warning (12.5:1)
+- **Right Panel**: k-NN neighbor analysis showing how predictions are made
+
+### Understanding the Metrics
+
+The pipeline evaluates:
+- **Alignment Accuracy**: How well K-Means clusters match manual categories (46.67% - poor alignment)
+- **Classification Accuracy**: Performance on test set for both approaches (Manual: 100%, K-Means: 86.67%)
+- **Cluster Imbalance**: Distribution of samples across clusters (25-2-3 split indicates severe imbalance)
+- **Neighbor Analysis**: Visualization of k-NN decision boundaries and voting patterns
+
+### Deep Dive Analysis
+For comprehensive insights including:
+- Token usage and cost analysis
+- Neighbor voting breakdowns
+- Why K-Means failed for this task
+- Production recommendations
+
+**📖 Read the full report: [docs/results_analysis.md](docs/results_analysis.md)**
+
+## Documentation
+
+All project documentation is located in the [`docs/`](docs/) folder:
+
+- **[results_analysis.md](docs/results_analysis.md)** - Comprehensive results analysis with detailed metrics, visualizations, and conclusions
+- **[planning.md](docs/planning.md)** - Project planning and implementation roadmap
+- **[prd.md](docs/prd.md)** - Product Requirements Document
+- **[prompt_llm.md](docs/prompt_llm.md)** - LLM prompts and AI interaction logs
+
+## License
+MIT
