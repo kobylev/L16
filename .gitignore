@@ -41,12 +41,6 @@ env/
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# Output files (in docs folder)
-docs/*.png
-docs/*.jpg
-docs/*.jpeg
-docs/*.pdf
-
 # OS
 .DS_Store
 Thumbs.db
